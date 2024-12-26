@@ -3,6 +3,8 @@ from sklearn.model_selection import cross_validate
 import janitor
 import pandas as pd
 import pandera as pa
+import numpy as np
+from PIL import Image
 
 def show_digit(df, index):
     labels = df.iloc[:, 0]
@@ -106,5 +108,35 @@ def validate_data(df):
         print(f"Data Validation failed: \n{e}")
 
     return validate_data
+
+def preprocess_image(image_path):
+    """
+    Preprocesses an image to be compatible with the model input format.
+
+    Parameters:
+        image_path (str): Path to the image file.
+    
+    Returns:
+        np.array: Flattened array of normalized pixel values.
+    """
+    # Load the image
+    image = Image.open(image_path)
+
+    # Convert to grayscale
+    image = image.convert('L')
+
+    # Resize to 28x28
+    image = image.resize((28, 28))
+
+    # Convert to a numpy array
+    pixel_array = np.array(image)
+
+    # Normalize pixel values to the range [0, 1]
+    normalized_pixels = pixel_array / 255.0
+
+    # Flatten the 2D array into a 1D array
+    flattened_pixels = normalized_pixels.flatten()
+
+    return flattened_pixels
 
 
