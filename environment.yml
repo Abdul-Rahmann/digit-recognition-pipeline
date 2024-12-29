@@ -1,0 +1,28 @@
+name: handwritten-digit-recognition  # Name of the environment
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Core dependencies
+  - python=3.9
+  - pip
+  - numpy
+  - pandas
+  - scikit-learn
+  - lightgbm
+  - matplotlib
+  - seaborn
+  - pillow
+
+  # FastAPI and Streamlit for API and UI
+  - fastapi
+  - uvicorn
+  - streamlit
+
+  # Miscellaneous
+  - jupyterlab
+
+  # Pip-installed dependencies
+  - pip:
+      - pandera
+      - matplotlib-inline
