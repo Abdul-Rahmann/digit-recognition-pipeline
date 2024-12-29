@@ -109,18 +109,19 @@ def validate_data(df):
 
     return validate_data
 
-def preprocess_image(image_path):
+def preprocess_image(image):
     """
     Preprocesses an image to be compatible with the model input format.
 
     Parameters:
-        image_path (str): Path to the image file.
+        image (PIL.Image.Image or str): PIL Image object or path to the image file.
     
     Returns:
-        np.array: Flattened array of normalized pixel values.
+        pd.DataFrame: DataFrame with flattened, normalized pixel values.
     """
-    # Load the image
-    image = Image.open(image_path)
+    # Load the image if a file path is provided
+    if isinstance(image, str):
+        image = Image.open(image)
 
     # Convert to grayscale
     image = image.convert('L')
@@ -137,6 +138,8 @@ def preprocess_image(image_path):
     # Flatten the 2D array into a 1D array
     flattened_pixels = normalized_pixels.flatten()
 
-    return flattened_pixels
+    # Convert to DataFrame to match model input
+    input_df = pd.DataFrame([flattened_pixels], columns=[f'pixel{i}' for i in range(784)])
+    return input_df
 
 
